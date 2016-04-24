@@ -18,17 +18,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.JThermometer;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.data.general.DefaultValueDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -53,32 +58,62 @@ public class Principal extends javax.swing.JFrame {
     BufferedReader in;
     ServerSocket server;
     Socket socket;
+    int n1 = 0;
+    int n2 = 0;
 
-    @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
-    }
+    /////////
+    final XYSeries Seriept1 = new XYSeries("V Proceso");
+    final XYSeries Seriept2 = new XYSeries("Promedio");
+    final XYSeries Seriept3 = new XYSeries("Set Point");
+    final XYSeriesCollection Colecciont = new XYSeriesCollection();
+    /////////////////
+    final XYSeries Seriepn1 = new XYSeries("V Proceso");
+    final XYSeries Seriepn2 = new XYSeries("Promedio");
+    final XYSeries Seriepn3 = new XYSeries("Set Point");
+    final XYSeriesCollection Coleccionn = new XYSeriesCollection();
+
+    // final XYSeriesCollection Coleccionp2 = new XYSeriesCollection();
+    JFreeChart Graficap1;
+    JFreeChart Graficap2;
+    // Graficas g;
 
     public Principal() {
         initComponents();
-        //setSize(1000, 600);
-        // setExtendedState(MAXIMIZED_BOTH);
+        // g=new Graficas(panelG1);
         setLocationRelativeTo(this);
         setVisible(true);
+        setResizable(false);
         Grafica = new JFreeChart("Temp", JFreeChart.DEFAULT_TITLE_FONT, plot, false);
         plot.setUnits(ThermometerPlot.UNITS_CELCIUS);
         plot.setThermometerStroke(new BasicStroke(2.0F));
         ChartPanel chartPanel = new ChartPanel(Grafica);
         panelGrafica.setLayout(new BorderLayout());
         panelGrafica.add(chartPanel);
-
+        setTitle(".:Proyecto de grado:.");
         Grafica1 = new JFreeChart("Temp", JFreeChart.DEFAULT_TITLE_FONT, plot1, false);
         plot1.setUnits(ThermometerPlot.UNITS_CELCIUS);
         plot1.setThermometerStroke(new BasicStroke(2.0F));
         ChartPanel chartPanel1 = new ChartPanel(Grafica1);
-        panelGrafica1.setLayout(new BorderLayout());
-        panelGrafica1.add(chartPanel1);
-        // Seria();
+        panelGrafica2.setLayout(new BorderLayout());
+        panelGrafica2.add(chartPanel1);
+        monitor();
+        Graficap1 = ChartFactory.createXYLineChart("Temperatura Vs. Tiempo \n",
+                "Tiempo", "Temperatura", Colecciont,
+                PlotOrientation.VERTICAL, true, true, false);
+
+        panelG1.setLayout(
+                new BorderLayout());
+        ChartPanel Panelt = new ChartPanel(Graficap1);
+        panelG1.add(Panelt);
+        /////////////////
+        Graficap2 = ChartFactory.createXYLineChart("Temperatura Vs. Tiempo \n",
+                "Tiempo", "Temperatura", Coleccionn,
+                PlotOrientation.VERTICAL, true, true, false);
+
+        panelG2.setLayout(
+                new BorderLayout());
+        ChartPanel Paneln = new ChartPanel(Graficap2);
+        panelG2.add(Paneln);
     }
 
     public void mostrar() {
@@ -95,16 +130,7 @@ public class Principal extends javax.swing.JFrame {
                 while (true) {
                     try {
                         Thread.sleep(500);
-//                        myButton.addListener(new GpioPinListenerDigital() {
-//                            @Override
-//                            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-//                                // display pin state on console
-//                                estado.setText(null);
-//                                if (event.getState().equals(this)) {
-//                                }
-//                                JOptionPane.showMessageDialog(null, " --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
-//                            }
-//                        });
+
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -122,13 +148,6 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        textenviar = new javax.swing.JTextField();
-        botonEnviar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textRecibido = new javax.swing.JTextArea();
-        botonConectar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tem1 = new javax.swing.JPanel();
         panelGrafica = new javax.swing.JPanel();
@@ -139,72 +158,25 @@ public class Principal extends javax.swing.JFrame {
         monitor1 = new javax.swing.JButton();
         tempAlta1 = new javax.swing.JTextField();
         setPoint1 = new javax.swing.JTextField();
-        tem2 = new javax.swing.JPanel();
-        panelGrafica1 = new javax.swing.JPanel();
-        monitor2 = new javax.swing.JButton();
+        panelG1 = new javax.swing.JPanel();
+        tem3 = new javax.swing.JPanel();
+        panelGrafica2 = new javax.swing.JPanel();
         tempBaja2 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        setPoint2 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        monitor2 = new javax.swing.JButton();
         tempAlta2 = new javax.swing.JTextField();
+        setPoint2 = new javax.swing.JTextField();
+        panelG2 = new javax.swing.JPanel();
+        botonConectar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        alertaTemBaja = new javax.swing.JLabel();
+        alertaTemAlta = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
-        jLabel4.setText(" Enviar Datos:");
-
-        botonEnviar.setText("Enviar");
-        botonEnviar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEnviarActionPerformed(evt);
-            }
-        });
-
-        textRecibido.setColumns(20);
-        textRecibido.setRows(5);
-        jScrollPane1.setViewportView(textRecibido);
-
-        botonConectar.setText("Conectar");
-        botonConectar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConectarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonConectar, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(textenviar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEnviar)))
-                .addContainerGap(62, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(botonConectar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textenviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEnviar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         panelGrafica.setPreferredSize(new java.awt.Dimension(400, 296));
 
@@ -216,8 +188,10 @@ public class Principal extends javax.swing.JFrame {
         );
         panelGraficaLayout.setVerticalGroup(
             panelGraficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 296, Short.MAX_VALUE)
         );
+
+        tempBaja1.setText("10");
 
         jLabel5.setText("Temp. Alta");
 
@@ -225,173 +199,238 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel7.setText("Temp. Baja");
 
-        monitor1.setText("Monitor");
+        monitor1.setText("Actualizar");
         monitor1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monitor1ActionPerformed(evt);
             }
         });
 
-        tempAlta1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tempAlta1ActionPerformed(evt);
-            }
-        });
+        tempAlta1.setText("80");
+
+        setPoint1.setText("50");
+
+        javax.swing.GroupLayout panelG1Layout = new javax.swing.GroupLayout(panelG1);
+        panelG1.setLayout(panelG1Layout);
+        panelG1Layout.setHorizontalGroup(
+            panelG1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelG1Layout.setVerticalGroup(
+            panelG1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 362, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout tem1Layout = new javax.swing.GroupLayout(tem1);
         tem1.setLayout(tem1Layout);
         tem1Layout.setHorizontalGroup(
             tem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tem1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(panelGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(tem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tempAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(setPoint1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tempBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(tem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addComponent(tempAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(setPoint1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tempBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(monitor1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(tem1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelG1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         tem1Layout.setVerticalGroup(
             tem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tem1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tempAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addGap(6, 6, 6)
-                .addComponent(setPoint1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel7)
-                .addGap(6, 6, 6)
-                .addComponent(tempBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(monitor1)
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addGroup(tem1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelGrafica, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panelG1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(tem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tem1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tempAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addGap(6, 6, 6)
+                        .addComponent(setPoint1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel7)
+                        .addGap(6, 6, 6)
+                        .addComponent(tempBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(monitor1)
+                        .addGap(64, 64, 64))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tem1Layout.createSequentialGroup()
+                        .addComponent(panelGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
 
         jTabbedPane1.addTab("Temperatura 1", tem1);
 
-        panelGrafica1.setPreferredSize(new java.awt.Dimension(400, 296));
+        panelGrafica2.setPreferredSize(new java.awt.Dimension(400, 296));
 
-        javax.swing.GroupLayout panelGrafica1Layout = new javax.swing.GroupLayout(panelGrafica1);
-        panelGrafica1.setLayout(panelGrafica1Layout);
-        panelGrafica1Layout.setHorizontalGroup(
-            panelGrafica1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelGrafica2Layout = new javax.swing.GroupLayout(panelGrafica2);
+        panelGrafica2.setLayout(panelGrafica2Layout);
+        panelGrafica2Layout.setHorizontalGroup(
+            panelGrafica2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        panelGrafica1Layout.setVerticalGroup(
-            panelGrafica1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        panelGrafica2Layout.setVerticalGroup(
+            panelGrafica2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 296, Short.MAX_VALUE)
         );
 
-        monitor2.setText("Monitor");
+        tempBaja2.setText("10");
+
+        jLabel11.setText("Temp. Alta");
+
+        jLabel12.setText("Set Point");
+
+        jLabel13.setText("Temp. Baja");
+
+        monitor2.setText("Actualizar");
         monitor2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monitor2ActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("Temp. Baja");
+        tempAlta2.setText("80");
 
-        jLabel9.setText("Set Point");
+        setPoint2.setText("50");
 
-        jLabel10.setText("Temp. Alta");
+        javax.swing.GroupLayout panelG2Layout = new javax.swing.GroupLayout(panelG2);
+        panelG2.setLayout(panelG2Layout);
+        panelG2Layout.setHorizontalGroup(
+            panelG2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelG2Layout.setVerticalGroup(
+            panelG2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 362, Short.MAX_VALUE)
+        );
 
-        tempAlta2.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout tem3Layout = new javax.swing.GroupLayout(tem3);
+        tem3.setLayout(tem3Layout);
+        tem3Layout.setHorizontalGroup(
+            tem3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tem3Layout.createSequentialGroup()
+                .addComponent(panelGrafica2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(tem3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tem3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel13)
+                        .addComponent(tempAlta2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(setPoint2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tempBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(monitor2))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(tem3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelG2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        tem3Layout.setVerticalGroup(
+            tem3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tem3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelG2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(tem3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tem3Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tempAlta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addGap(6, 6, 6)
+                        .addComponent(setPoint2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel13)
+                        .addGap(6, 6, 6)
+                        .addComponent(tempBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(monitor2)
+                        .addGap(64, 64, 64))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tem3Layout.createSequentialGroup()
+                        .addComponent(panelGrafica2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
+        );
+
+        jTabbedPane1.addTab("Temperatura 2", tem3);
+
+        botonConectar.setText("Conectar");
+        botonConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tempAlta2ActionPerformed(evt);
+                botonConectarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout tem2Layout = new javax.swing.GroupLayout(tem2);
-        tem2.setLayout(tem2Layout);
-        tem2Layout.setHorizontalGroup(
-            tem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tem2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelGrafica1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addGroup(tem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tempAlta2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(setPoint2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tempBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(monitor2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        tem2Layout.setVerticalGroup(
-            tem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tem2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tempAlta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addGap(6, 6, 6)
-                .addComponent(setPoint2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel8)
-                .addGap(6, 6, 6)
-                .addComponent(tempBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(monitor2)
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addGroup(tem2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelGrafica1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jLabel1.setText("Alertas:");
 
-        jTabbedPane1.addTab("Temperatura 2", tem2);
+        alertaTemBaja.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        alertaTemBaja.setOpaque(true);
+
+        alertaTemAlta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        alertaTemAlta.setOpaque(true);
+
+        jLabel2.setText("Temp Baja");
+
+        jLabel3.setText("Temp Alta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(botonConectar)
+                .addGap(48, 48, 48)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(alertaTemBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(alertaTemAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(208, 208, 208))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonConectar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(alertaTemBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(alertaTemAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnviarActionPerformed
-        try {
-            out = new PrintWriter(socket.getOutputStream(), true);
-            out.println(textenviar.getText());
-            out.flush();
-            textenviar.setText(null);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_botonEnviarActionPerformed
 
     private void botonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConectarActionPerformed
         plot.setSubrangeInfo(ThermometerPlot.NORMAL, Double.parseDouble(tempBaja1.getText().toString()), Double.parseDouble(setPoint1.getText().toString()), 0.0, 150.0);
@@ -402,45 +441,79 @@ public class Principal extends javax.swing.JFrame {
         plot.setSubrangePaint(2, new GradientPaint(1.0f, 2.0f, Color.red, 3.0f, 4.0f, Color.red));
         plot.setThermometerStroke(new BasicStroke(2.0f));
         plot.setThermometerPaint(Color.BLACK);
+        /////////////
+        plot1.setSubrangeInfo(ThermometerPlot.NORMAL, Double.parseDouble(tempBaja2.getText().toString()), Double.parseDouble(setPoint2.getText().toString()), 0.0, 150.0);
+        plot1.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.BLUE, 3.0f, 4.0f, Color.BLUE));
+        plot1.setSubrangeInfo(ThermometerPlot.WARNING, Double.parseDouble(setPoint2.getText().toString()), Double.parseDouble(tempAlta2.getText().toString()), 0.0, 150.0);
+        plot1.setSubrangePaint(1, new GradientPaint(1.0f, 2.0f, Color.green, 3.0f, 4.0f, Color.green));
+        plot1.setSubrangeInfo(ThermometerPlot.CRITICAL, Double.parseDouble(tempAlta2.getText().toString()), 150.0, 0.0, 150.0);
+        plot1.setSubrangePaint(2, new GradientPaint(1.0f, 2.0f, Color.red, 3.0f, 4.0f, Color.red));
+        plot1.setThermometerStroke(new BasicStroke(2.0f));
+        plot1.setThermometerPaint(Color.BLACK);
+        ///////////////////////
+        Seriept1.add(
+                0, 0);
+        Seriept2.add(
+                0, 0);
+        Seriept3.add(
+                0, 0);
+        Colecciont.addSeries(Seriept1);
+        Colecciont.addSeries(Seriept2);
+        Colecciont.addSeries(Seriept3);
+        ///////////////////////////////////////////////////////
+         Seriepn1.add(
+                0, 0);
+        Seriepn2.add(
+                0, 0);
+        Seriepn3.add(
+                0, 0);
+        Coleccionn.addSeries(Seriepn1);
+        Coleccionn.addSeries(Seriepn2);
+        Coleccionn.addSeries(Seriepn3);
+        // Coleccionp2.addSeries(Seriep2);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     System.out.println("Conectado");
-                    //termometro.setValue(40);
-                    //  Datos.setValue(40);
-                    server = new ServerSocket(500);
+                    server = new ServerSocket(2000);
                     while (true) {
                         try {
                             // Thread.sleep(50);
                             socket = server.accept();
-                            textRecibido.append("Conectado... " + socket.getInetAddress().getHostName() + " " + socket.getPort() + "\n");
+                            // textRecibido.append("Conectado... " + socket.getInetAddress().getHostName() + " " + socket.getPort() + "\n");
                             System.out.println("Paso 1");
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         String dato;
+                                        int e = 0;
                                         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                                        //   DataInputStream in = new DataInputStream(new DataInputStream(socket.getInputStream()));
-                                        //   ObjectInputStream in=new ObjectInputStream(new ObjectInputStream(socket.getInputStream()));
                                         System.out.println("Paso 2");
                                         while ((dato = in.readLine()) != null) {
-                                            // recibido.append(Utilidades.Desencriptar(dato) + "\n");
-                                            // System.out.println("Mensaje Server: " + dato);
                                             if (dato.length() > 0) {
                                                 //dato.substring(0, 4);
-                                                Thread.sleep(500);
-                                                termometro.setValue(Integer.parseInt(dato.substring(2, 5).toString()));
-                                                Datos.setValue(Integer.parseInt(dato.substring(2, 5).toString()));
-                                               // termometro1.setValue(Integer.parseInt(dato.substring(6, 10)));
-                                                // Datos1.setValue(Integer.parseInt(dato.substring(6, 10)));
-                                                textRecibido.append("Da1 " + dato.substring(2, 5) + "\n" + "Da2" + dato.substring(6, 10) + "\n");
+                                                //Thread.sleep(300);
+                                                n1 = Integer.parseInt(dato.substring(2, 5).trim());
+                                                n2 = Integer.parseInt(dato.substring(6, 10).trim());
+                                                e += 1;
+                                                Seriept3.add(e, Integer.parseInt(setPoint1.getText().toString()));
+                                                Seriept2.add(e, (Integer.parseInt(setPoint1.getText().toString()) + n1) / 2);
+                                                Seriept1.add(e, n1);
+                                                Seriepn3.add(e, Integer.parseInt(setPoint2.getText().toString()));
+                                                Seriepn2.add(e, (Integer.parseInt(setPoint2.getText().toString()) + n2) / 2);
+                                                Seriepn1.add(e, n2);
+                                                termometro.setValue(Integer.parseInt(String.format("%1$03d", n1)));
+                                                Datos.setValue(Integer.parseInt(String.format("%1$03d", n1)));
+                                                termometro1.setValue(Integer.parseInt(String.format("%1$03d", n2)));
+                                                Datos1.setValue(Integer.parseInt(String.format("%1$03d", n2)));
+                                                //  textRecibido.append("Da1 " + String.format("%1$03d", n1) + "\n" + "Da2" + String.format("%1$03d", n2) + "\n");
+
                                             }
                                         }
                                     } catch (IOException ex) {
-                                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (InterruptedException ex) {
                                         Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
@@ -456,83 +529,92 @@ public class Principal extends javax.swing.JFrame {
         }).start();
     }//GEN-LAST:event_botonConectarActionPerformed
 
-    private void monitor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitor1ActionPerformed
-        // plot.setSubrangeInfo(ThermometerPlot.NORMAL, 0.0, Double.parseDouble(tempBaja1.getText().toString()), 20.0, 100.0);
-        // plot.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.BLUE, 3.0f, 4.0f, Color.BLUE));
-/*        plot.setSubrangeInfo(ThermometerPlot.NORMAL, Double.parseDouble(tempBaja1.getText().toString()), Double.parseDouble(setPoint1.getText().toString()), 0.0, 150.0);
-         plot.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.BLUE, 3.0f, 4.0f, Color.BLUE));
-         plot.setSubrangeInfo(ThermometerPlot.WARNING, Double.parseDouble(setPoint1.getText().toString()), Double.parseDouble(tempAlta1.getText().toString()), 0.0, 150.0);
-         plot.setSubrangePaint(1, new GradientPaint(1.0f, 2.0f, Color.green, 3.0f, 4.0f, Color.green));
-         plot.setSubrangeInfo(ThermometerPlot.CRITICAL, Double.parseDouble(tempAlta1.getText().toString()), 150.0, 0.0, 150.0);
-         plot.setSubrangePaint(2, new GradientPaint(1.0f, 2.0f, Color.red, 3.0f, 4.0f, Color.red));
-         plot.setThermometerStroke(new BasicStroke(2.0f));
-         plot.setThermometerPaint(Color.BLACK);
-
-         // mostrar();
-         //       Grafica = ChartFactory.createAreaChart("Temp", "WWE", "WEWE", Datos);
-         //panelGrafica.setLayout(new BorderLayout(50, 50));
-         //  termometro.setUnits(ThermometerPlot.CRITICAL);
-         //  plot.setRange(10, 20);
-         //        ChartPanel panel = new ChartPanel(Grafica);
-         new Thread(new Runnable() {
-
-         @Override
-         public void run() {
-         for (int i = 0; i < 100; i++) {
-         try {
-         Thread.sleep(100);
-         termometro.setValue(i);
-         Datos.setValue(i);
-         } catch (InterruptedException ex) {
-         Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
-         }
-         }).start();*/
-    }//GEN-LAST:event_monitor1ActionPerformed
-
-    private void tempAlta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tempAlta1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tempAlta1ActionPerformed
-
     private void monitor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitor2ActionPerformed
-        plot1.setSubrangeInfo(ThermometerPlot.NORMAL, 0.0, Double.parseDouble(tempBaja2.getText().toString()), 0.0, 100.0);
-        plot1.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.blue, 3.0f,
-                4.0f, Color.blue));
-        plot1.setSubrangeInfo(ThermometerPlot.WARNING, Double.parseDouble(tempBaja2.getText().toString()), Double.parseDouble(setPoint2.getText().toString()), 0.0, 100.0);
-        plot1.setSubrangePaint(1, new GradientPaint(1.0f, 2.0f, Color.green, 3.0f,
-                4.0f, Color.green));
-        plot1.setSubrangeInfo(ThermometerPlot.CRITICAL, Double.parseDouble(setPoint2.getText().toString()), Double.parseDouble(tempAlta2.getText().toString()), 0.0, 100.0);
+       plot1.setSubrangeInfo(ThermometerPlot.NORMAL, Double.parseDouble(tempBaja2.getText().toString()), Double.parseDouble(setPoint2.getText().toString()), 0.0, 150.0);
+        plot1.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.BLUE, 3.0f, 4.0f, Color.BLUE));
+        plot1.setSubrangeInfo(ThermometerPlot.WARNING, Double.parseDouble(setPoint2.getText().toString()), Double.parseDouble(tempAlta2.getText().toString()), 0.0, 150.0);
+        plot1.setSubrangePaint(1, new GradientPaint(1.0f, 2.0f, Color.green, 3.0f, 4.0f, Color.green));
+        plot1.setSubrangeInfo(ThermometerPlot.CRITICAL, Double.parseDouble(tempAlta2.getText().toString()), 150.0, 0.0, 150.0);
+        plot1.setSubrangePaint(2, new GradientPaint(1.0f, 2.0f, Color.red, 3.0f, 4.0f, Color.red));
         plot1.setThermometerStroke(new BasicStroke(2.0f));
         plot1.setThermometerPaint(Color.BLACK);
+    }//GEN-LAST:event_monitor2ActionPerformed
 
-        // mostrar();
-        //       Grafica = ChartFactory.createAreaChart("Temp", "WWE", "WEWE", Datos);
-        //panelGrafica.setLayout(new BorderLayout(50, 50));
-        //  termometro.setUnits(ThermometerPlot.CRITICAL);
-        //  plot.setRange(10, 20);
-        //        ChartPanel panel = new ChartPanel(Grafica);
+    private void monitor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitor1ActionPerformed
+        plot.setSubrangeInfo(ThermometerPlot.NORMAL, Double.parseDouble(tempBaja1.getText().toString()), Double.parseDouble(setPoint1.getText().toString()), 0.0, 150.0);
+        plot.setSubrangePaint(0, new GradientPaint(1.0f, 2.0f, Color.BLUE, 3.0f, 4.0f, Color.BLUE));
+        plot.setSubrangeInfo(ThermometerPlot.WARNING, Double.parseDouble(setPoint1.getText().toString()), Double.parseDouble(tempAlta1.getText().toString()), 0.0, 150.0);
+        plot.setSubrangePaint(1, new GradientPaint(1.0f, 2.0f, Color.green, 3.0f, 4.0f, Color.green));
+        plot.setSubrangeInfo(ThermometerPlot.CRITICAL, Double.parseDouble(tempAlta1.getText().toString()), 150.0, 0.0, 150.0);
+        plot.setSubrangePaint(2, new GradientPaint(1.0f, 2.0f, Color.red, 3.0f, 4.0f, Color.red));
+        plot.setThermometerStroke(new BasicStroke(2.0f));
+        plot.setThermometerPaint(Color.BLACK);
+    }//GEN-LAST:event_monitor1ActionPerformed
+    public void monitor() {
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        Thread.sleep(100);
-                        termometro1.setValue(i);
-                        Datos1.setValue(i);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                while (true) {
+
+                    if (n1 <= Integer.parseInt(tempBaja1.getText().toString())) {
+                        try {
+                            //  JOptionPane.showMessageDialog(null, "Temperatura 1 Baja Activada");
+                            // tem1.setBackground(Color.BLUE);
+                            alertaTemBaja.setBackground(Color.BLUE);
+                            alertaTemBaja.setText("Temperatura 1");
+                            Thread.sleep(1000);
+                            //tem1.setBackground(Color.WHITE);
+                            alertaTemBaja.setBackground(Color.WHITE);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                    if (n2 <= Integer.parseInt(tempBaja2.getText().toString())) {
+                        try {
+                            // JOptionPane.showMessageDialog(null, "Temperatura 2 Baja Activada");
+                            // tem2.setBackground(Color.BLUE);
+                            alertaTemBaja.setBackground(Color.BLUE);
+                            alertaTemBaja.setText("Temperatura 2");
+                            Thread.sleep(1000);
+                            // tem2.setBackground(Color.WHITE);
+                            alertaTemBaja.setBackground(Color.WHITE);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    if (n1 >= Integer.parseInt(tempAlta1.getText().toString())) {
+                        try {
+                            // JOptionPane.showMessageDialog(null, "Temperatura 2 Baja Activada");
+                            // tem1.setBackground(Color.RED);
+                            alertaTemAlta.setBackground(Color.RED);
+                            alertaTemAlta.setText("Temperatura 1");
+                            Thread.sleep(1000);
+                            // tem1.setBackground(Color.WHITE);
+                            alertaTemAlta.setBackground(Color.WHITE);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    if (n2 >= Integer.parseInt(tempAlta2.getText().toString())) {
+                        try {
+                            // JOptionPane.showMessageDialog(null, "Temperatura 2 Baja Activada");
+                            // tem2.setBackground(Color.RED);
+                            alertaTemAlta.setBackground(Color.RED);
+                            alertaTemAlta.setText("Temperatura 2");
+                            Thread.sleep(1000);
+                            // tem2.setBackground(Color.WHITE);
+                            alertaTemAlta.setBackground(Color.WHITE);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
-        });
-    }//GEN-LAST:event_monitor2ActionPerformed
+        }).start();
 
-    private void tempAlta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tempAlta2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tempAlta2ActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
@@ -572,31 +654,32 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel alertaTemAlta;
+    private javax.swing.JLabel alertaTemBaja;
     private javax.swing.JButton botonConectar;
-    private javax.swing.JButton botonEnviar;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton monitor1;
     private javax.swing.JButton monitor2;
+    private javax.swing.JPanel panelG1;
+    private javax.swing.JPanel panelG2;
     private javax.swing.JPanel panelGrafica;
-    private javax.swing.JPanel panelGrafica1;
+    private javax.swing.JPanel panelGrafica2;
     private javax.swing.JTextField setPoint1;
     private javax.swing.JTextField setPoint2;
     private javax.swing.JPanel tem1;
-    private javax.swing.JPanel tem2;
+    private javax.swing.JPanel tem3;
     private javax.swing.JTextField tempAlta1;
     private javax.swing.JTextField tempAlta2;
     private javax.swing.JTextField tempBaja1;
     private javax.swing.JTextField tempBaja2;
-    private javax.swing.JTextArea textRecibido;
-    private javax.swing.JTextField textenviar;
     // End of variables declaration//GEN-END:variables
 }
