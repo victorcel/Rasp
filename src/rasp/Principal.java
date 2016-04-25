@@ -55,6 +55,7 @@ public class Principal extends javax.swing.JFrame {
     ThermometerPlot plot = new ThermometerPlot(Datos);
     ThermometerPlot plot1 = new ThermometerPlot(Datos1);
     PrintWriter out;
+    
     BufferedReader in;
     ServerSocket server;
     Socket socket;
